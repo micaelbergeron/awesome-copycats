@@ -5,16 +5,23 @@
                                              
 --]]
 
+-- beautiful init
+local beautiful = require("beautiful")
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-darker/theme.lua")
+
 -- {{{ Required libraries
 local gears     = require("gears")
 local awful     = require("awful")
 awful.rules     = require("awful.rules")
                   require("awful.autofocus")
 local wibox     = require("wibox")
-local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local drop      = require("scratchdrop")
 local lain      = require("lain")
+local apw	= require("apw")
+local vicious	= require("vicious")
+vicious.contrib = require("vicious.contrib")
+
 -- }}}
 
 -- {{{ Error handling
@@ -56,8 +63,6 @@ run_once("unclutter")
 -- localization
 os.setlocale(os.getenv("LANG"))
 
--- beautiful init
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-darker/theme.lua")
 
 -- common
 modkey     = "Mod4"
@@ -86,7 +91,7 @@ local layouts = {
 
 -- {{{ Tags
 tags = {
-   names = { "1", "2", "3", "4", "5"},
+   names = { "i", "ii", "iii", "iv", "v"},
    layout = { layouts[1], layouts[2], layouts[3], layouts[1], layouts[4] }
 }
 
@@ -105,7 +110,7 @@ end
 
 -- {{{ Menu
 mymainmenu = awful.menu.new({ items = require("menugen").build_menu(),
-                              theme = { height = 16, width = 130 }})
+                              theme = { height = 24, width = 220 }})
 -- }}}
 
 -- {{{ Wibox
@@ -180,15 +185,13 @@ cpuwidget = wibox.widget.background(lain.widgets.cpu({
 
 -- Coretemp
 tempicon = wibox.widget.imagebox(beautiful.widget_temp)
-tempwidget = lain.widgets.temp({
-    settings = function()
-        widget:set_text(" " .. coretemp_now .. "°C ")
-    end
-})
+tempwidget = wibox.widget.textbox()
+vicious.register(tempwidget, vicious.contrib.sensors, "$1°C ", 2, "temp2") 
 
 -- / fs
 fsicon = wibox.widget.imagebox(beautiful.widget_hdd)
 fswidget = lain.widgets.fs({
+    partition = "/home",
     settings  = function()
         widget:set_text(" " .. fs_now.used .. "% ")
     end
@@ -236,10 +239,11 @@ volumewidget = lain.widgets.alsa({
 neticon = wibox.widget.imagebox(beautiful.widget_net)
 neticon:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
 netwidget = wibox.widget.background(lain.widgets.net({
+    format = "%4d",
     settings = function()
-        widget:set_markup(markup("#7AC82E", " " .. net_now.received)
-                          .. " " ..
-                          markup("#46A8C3", " " .. net_now.sent .. " "))
+        widget:set_markup(markup("#7AC82E", " " .. net_now.received .. "K ")
+			  ..
+                          markup("#46A8C3", " " .. net_now.sent .. "K "))
     end
 }), "#313131")
 
@@ -341,9 +345,10 @@ for s = 1, screen.count() do
     right_layout:add(mpdwidgetbg)
     right_layout:add(arrl_dl)
     right_layout:add(volicon)
-    right_layout:add(volumewidget)
+    right_layout:add(apw.widget)
+    --right_layout:add(volumewidget)
     right_layout:add(arrl_ld)
-    right_layout:add(mailicon)
+    --right_layout:add(mailicon)
     --right_layout:add(mailwidget)
     right_layout:add(arrl_dl)
     right_layout:add(memicon)
@@ -358,8 +363,8 @@ for s = 1, screen.count() do
     right_layout:add(fsicon)
     right_layout:add(fswidgetbg)
     right_layout:add(arrl_dl)
-    right_layout:add(baticon)
-    right_layout:add(batwidget)
+    --right_layout:add(baticon)
+    --right_layout:add(batwidget)
     right_layout:add(arrl_ld)
     right_layout:add(neticon)
     right_layout:add(netwidget)
@@ -526,6 +531,11 @@ globalkeys = awful.util.table.join(
             mpdwidget.update()
         end),
 
+    -- APW (PulseAudio)
+    awful.key({ }, "XF86AudioRaiseVolume",  apw.widget.Up),
+    awful.key({ }, "XF86AudioLowerVolume",  apw.widget.Down),
+    awful.key({ }, "XF86AudioMute",         apw.widget.ToggleMute),
+
     -- Copy to clipboard
     awful.key({ modkey }, "c", function () os.execute("xsel -p -o | xsel -i -b") end),
 
@@ -637,12 +647,19 @@ awful.rules.rules = {
     { rule = { instance = "plugin-container" },
           properties = { tag = tags[1][1] } },
 
-	  { rule = { class = "Gimp" },
+	{ rule = { class = "Gimp" },
      	    properties = { tag = tags[1][4] } },
 
     { rule = { class = "Gimp", role = "gimp-image-window" },
           properties = { maximized_horizontal = true,
                          maximized_vertical = true } },
+	{ rule = { class = "Conky" },
+		  properties = { floating = true,
+			  			 sticky = true,
+			  			 ontop = false,
+			  			 focusable = false,
+			  			 size_hints = {"program_position", "program_size"} }
+    },
 }
 -- }}}
 
@@ -699,7 +716,7 @@ client.connect_signal("manage", function (c, startup)
         layout:set_right(right_layout)
         layout:set_middle(middle_layout)
 
-        awful.titlebar(c,{size=16}):set_widget(layout)
+        awful.titlebar(c,{size=20}):set_widget(layout)
     end
 end)
 

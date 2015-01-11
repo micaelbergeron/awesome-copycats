@@ -81,4 +81,8 @@ theme.tasklist_floating             = ""
 theme.tasklist_maximized_horizontal = ""
 theme.tasklist_maximized_vertical   = ""
 
+theme.apw = {
+	width = 12
+}
+
 return theme
