@@ -7,9 +7,8 @@
 
 theme                               = {}
 
-themes_dir                          = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-darker"
-theme.wallpaper                     = themes_dir .. "/wall.png"
-
+themes_dir                          = os.getenv("HOME") .. "/.config/awesome/themes/dota2"
+theme.wallpaper_dir		    = os.getenv("HOME") .. "/.wallpapers/dota2"
 theme.font                          = "Terminus 9"
 theme.fg_normal                     = "#DDDDFF"
 theme.fg_focus                      = "#F0DFAF"
@@ -17,12 +16,12 @@ theme.fg_urgent                     = "#CC9393"
 theme.bg_normal                     = "#1A1A1A"
 theme.bg_focus                      = "#313131"
 theme.bg_urgent                     = "#1A1A1A"
-theme.border_width                  = "1"
+theme.border_width                  = "0"
+theme.border_width_floating         = "1"
 theme.border_normal                 = "#3F3F3F"
 theme.border_focus                  = "#7F7F7F"
 theme.border_marked                 = "#CC9393"
-theme.titlebar_bg_focus             = "#FFFFFF"
-theme.titlebar_bg_normal            = "#FFFFFF"
+theme.titlebar_bg_normal            = "#1A1A1A"
 theme.taglist_fg_focus              = "#D8D782"
 theme.tasklist_bg_focus             = "#1A1A1A"
 theme.tasklist_fg_focus             = "#D8D782"
@@ -82,7 +81,7 @@ theme.tasklist_maximized_horizontal = ""
 theme.tasklist_maximized_vertical   = ""
 
 theme.apw = {
-	width = 12
+	width = 3
 }
 
 return theme
