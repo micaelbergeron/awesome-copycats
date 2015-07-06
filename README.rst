@@ -7,7 +7,7 @@ Power themes for Awesome WM 3.5+
 --------------------------------
 
 :Author: Luke Bonham <dada [at] archlinux [dot] info>
-:Version: 2.0-git
+:Version: git
 :License: BY-NC-SA_
 :Source: https://github.com/copycat-killer/awesome-copycats
 
@@ -26,7 +26,7 @@ Notable features
 - Quake drop-down terminal
 - Calendar with current day highlighted and months switch with a click
 - Elegant notifications for new mails, current song, volume level, hdd critical state, low battery
-- Yahoo! Weather integration
+- OpenWeatherMap integration
 - Net carrier status notifier
 - Colorful autoupdating icons
 - Symbolic tag names
@@ -103,7 +103,7 @@ Then customize your ``rc.lua`` and restart Awesome (``Mod4 + ctrl + r``).
 Notes
 =====
 
-Be sure to have the latest **stable** versions of Lua and Awesome.
+Only compatible with **stable** versions of Lua and Awesome (git/unstable versions are *not* supported).
 
 Complements are provided by lain_: be sure to meet its dependencies_.
 
@@ -114,6 +114,14 @@ Every theme has a colorscheme_.
 Blackburn and Dremora use Icons_: be sure to have bitmaps enabled if running under Debian_ or Ubuntu_.
 
 Feel free to email me if you have any request.
+
+Notable forks
+=============
+
+Does your fork look very nice? You can send it to me!
+
+The best ones will be linked here.
+
 
 .. _BY-NC-SA: http://creativecommons.org/licenses/by-nc-sa/3.0/
 .. _Awesome: http://awesome.naquadah.org/
